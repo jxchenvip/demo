@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>jxchen'demo</title>
+    <link rel="stylesheet" href="resource/css/base.css">
+    <link rel="stylesheet" href="resource/css/theam-a/index.css">
+</head>
+
+<body>
+    <div id="cBanner" class="cBanner" style="background-image:url(resource/img/banner.jpg)">
+        <canvas id="cTablet"></canvas>
+    </div>
+    <!-- cBanner E -->
+    <div class="cWrapFull">
+        <div class="cBox">
+            <ul id="list">
+                <li class="col-xs-12">
+                    <div class="article">
+                        <a href="./project/canvas/tablet/index.html">写字板</a>
+                    </div>
+                </li>
+                <li class="col-xs-12 col-sm-6">
+                    <div class="article">
+                        <a href="./project/canvas/circel_progress/index.html">圆形进度条</a>
+                    </div>
+                </li>
+                <li class="col-xs-12 col-sm-6">
+                    <div class="article">
+                        <a href="./project/javascript/data_select/index.html">日期联动下拉</a>
+                    </div>
+                </li>
+                <li class="col-xs-12 col-sm-6">
+                    <div class="article">
+                        <a href="./project/javascript/countDown/index.html">倒计时</a>
+                    </div>
+                </li>
+                <li class="col-xs-12 col-sm-6">
+                    <div class="article">
+                        <a href="./project/javascript/countDown/index.html">敬请期待</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- cBox E -->
+    </div>
+    <!-- cWrapFull E -->
+    <script type="text/template" id="temp">
+    {{#data}}
+    <li class="col-xs-12 {{^top}}col-sm-6{{/top}}">
+        <div class="article">
+            <a href="{{link}}" title="{{innerText}}">{{innerText}}</a>
+        </div>
+    </li>
+    {{/data}}
+    </script>
+    <script src="./resource/js/dist/sea.js"></script>
+    <script>
+    seajs.use('./resource/js/app/jxchenvip/v1.0/index.js');
+    </script>
+</body>
+
+</html>

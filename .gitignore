@@ -1,0 +1,6 @@
+
+/.sass-cache/
+.DS_Store
+*.exe
+*.ini
+node_modules/
