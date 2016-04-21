@@ -70,8 +70,8 @@ function createItems(n, succ) {
                 li.style.top = posArr[index].y + 'px';
                 posArr[index].y = li.offsetTop + li.offsetHeight + MARGIN;
                 oUl.style.height = posArr[index].y + 'px';
-                i++;
                 setTimeout(next, 100);
+                i++;
             }
             // img.setAttribute('src', img.getAttribute('_src'));
         }
@@ -94,15 +94,18 @@ function init() {
 init();
 
 var ready = true;
+var oSpinner = document.getElementById('spinner');
 window.onscroll = function () {
     var lastLi = oUl.children[oUl.children.length - 1];
+    if (!ready) return false;
     if (isEnterScreen(lastLi) && ready) {
-        if (!ready) return false;
         ready = false;
+        oSpinner.style.display = 'block';
         setTimeout(function () {
             createItems(10, function () {
                 ready = true;
             });
+            oSpinner.style.display = 'none';
         }, 1000)
     }
 }
