@@ -42,8 +42,10 @@
             if (!canvas) return false;
             options = options || {};
             this.cvs = typeof canvas == 'string' ? document.querySelector(canvas) : canvas;
-            this.tags = options.tags || ['热搜', '曲线1', '看好1', '关键字', '牛股', '搜索', '高开', '牛股'];
-            this.value = options.value || this.rnd(1, 100)/10; // 设置值
+            // '热搜', '曲线1', '看好1', '关键字', '牛股', '搜索', '高开', '牛股', 
+            this.tags = options.tags || ['热搜', '曲线1', '看好1', '关键字', '牛股', '搜索', '高开', '牛股', '热搜', '曲线1', '看好1', '关键字', '牛股', '搜索', '高开', '牛股'];
+            this.value = options.value || this.rnd(1, 100) / 10; // 设置值
+            this.value = Math.min(Math.max(0, this.value), 10);
             this.colors = options.colors || []; // 颜色 
             this.noCanvasCallback = options.noCanvasCallback || function() {}; // 颜色
 
@@ -184,46 +186,59 @@
                 var H2 = H / 2;
                 var N = this.value;
                 var _N = 0;
-                var grd = this.ctx.createLinearGradient(-W2, H2, W2, H2);
-                grd.addColorStop(0.5, "rgba(255, 255, 255, 0)");
-                grd.addColorStop(1, "rgba(0, 0, 0, .6)");
-
+                var grd = this.ctx.createLinearGradient(-400, -400, 800, 800);
+                grd.addColorStop(0, "#b2d2f4");
+                grd.addColorStop(1, "rgba(255, 255, 255, 0)");
+                // grd.addColorStop(1, "#f60");
                 this.ctx.save();
                 this.ctx.translate(this.center.x, this.center.y);
+                // this.ctx.rotate(this.d2a(90+this.getNumber() * 270 / 10));
+                // this.ctx.rotate(this.d2a(135 + this.tempNum));
+                // this.ctx.globalAlpha = this.getNumber() / 10;
                 this.ctx.beginPath();
                 this.ctx.fillStyle = grd;
                 this.ctx.moveTo(0, 0);
-                this.ctx.arc(0, 0, W / 2 / this.ratio, 0, this.d2a(360));
+                this.ctx.arc(0, 0, W / 2 / this.ratio, this.d2a(0), this.d2a(360));
+                // this.ctx.rect(0, 0, 200, -100);
                 this.ctx.moveTo(0, 0);
+
                 this.ctx.fill();
                 this.ctx.closePath();
                 this.ctx.restore();
 
+                // var grd = this.ctx.createLinearGradient(0, 0, -100, -100);
+                // grd.addColorStop(0, "rgba(255, 255, 255, 0)");
+                // grd.addColorStop(1, "rgba(0, 0, 0, 1)");
 
-                this.ctx.save();
-                this.ctx.translate(this.center.x, this.center.y);
-                this.ctx.rotate(this.d2a(this.getNumber() * 270 / 10));
-                this.ctx.beginPath();
-                this.ctx.fillStyle = '#f60';
-                this.ctx.moveTo(0, 0);
-                this.ctx.arc(0, 0, W / 2 / this.ratio, this.d2a(this.sAngle - this.getNumber() * 270 / 10), this.d2a(this.sAngle + 5));
-                this.ctx.moveTo(0, 0);
-                this.ctx.globalCompositeOperation = "destination-in";
-                this.ctx.fill();
-                this.ctx.closePath();
-                this.ctx.restore();
+                // this.ctx.save();
+                // this.ctx.translate(this.center.x, this.center.y);
+                // this.ctx.rotate(this.d2a(this.getNumber() * 270 / 10));
+                // // this.ctx.globalAlpha = this.getNumber() / 10;
+                // this.ctx.beginPath();
+                // this.ctx.fillStyle = grd;
+                // this.ctx.moveTo(0, 0);
+                // this.ctx.arc(0, 0, W / 2 / this.ratio, this.d2a(this.sAngle - this.getNumber() * 270 / 50), this.d2a(this.sAngle + 5));
+                // this.ctx.moveTo(0, 0);
+                // // this.ctx.rect(0, 0, -100, -100);
+                // // this.ctx.stroke();
+                // this.ctx.globalCompositeOperation = "destination-in";
+                // this.ctx.fill();
+                // this.ctx.closePath();
+                // this.ctx.restore();
             },
             // 指针
             createHand: function() {
                 var sAngle = -135;
                 var start = 0;
                 var eAngle = this.setNumber(this.value);
-                var duration = 150;
+                var duration = this.value * 10 * 150 / 100;
+                console.log(duration)
                 this.tempNum = Tween.Quad.easeOut(this.ANIMAT.hand++, start, eAngle - start, duration);
                 if (this.ANIMAT.hand > duration) {
                     this.update = false;
                     this.tempNum = eAngle;
                 }
+
                 this.ctx.save();
                 this.ctx.translate(this.center.x, this.center.y);
                 this.ctx.rotate(this.d2a(sAngle + this.tempNum));
@@ -268,10 +283,10 @@
             rnd: function(iMin, iMax) {
                 return Math.floor(Math.random() * (iMax - iMin)) + iMin;
             },
-            sampleDirection: function(index) {
-                // var R = this.R3 * (0.15 + index / this.tags.length / 3);
-                var R = this.R3 * (0.28 + Math.random() / 2.5);
-                var theta = index * 0.5;
+            sampleDirection: function(index, rnd) {
+                var R = this.R3 * (this.rnd(200, 450) / 1000 + index / this.tags.length / 2.5);
+                // var R = this.R3 * this.rnd(150, 650) / 1000;
+                var theta = index + rnd;
                 return {
                     x: Math.cos(this.a2d(theta)) * R,
                     y: Math.sin(this.a2d(theta)) * R
@@ -279,20 +294,23 @@
             },
             // 设置tags 标签信息
             setTagsInfor: function() {
+                var rnd = this.rnd(0, 100) * 0.5;
                 this.tags.forEach(function(text, index) {
                     var fontSize = this.rnd(12, 20);
                     var cr = this.rnd(0, 255); // rgba : r
                     var cg = this.rnd(0, 255); // rgba : g
                     var cb = this.rnd(0, 255); // rgba : b
                     var ca = this.rnd(60, 100) / 100; // rgba : a
+                    var scale = this.rnd(75, 110) / 100;
                     this.ctx.font = fontSize + 'px Microsoft YaHei'; // 为了计算字体的宽度
                     var radius = this.ctx.measureText(text).width / 2;
-                    var d = this.sampleDirection(index); // 简单的随机方向
+                    var d = this.sampleDirection(index, rnd); // 简单的随机方向
                     this.tagsInfor.push({
                         x: d.x, // x 轴
                         y: d.y, // y 轴
                         radius: d.radius, // 文字半径
                         text: text, // 文字
+                        scale: scale, // 缩放
                         color: 'rgba(' + cr + ', ' + cg + ', ' + cb + ', ' + ca + ')', // 字体颜色
                         fontSize: fontSize // 字体大小
                     });
@@ -310,15 +328,16 @@
                     this.ctx.closePath();
                     this.ctx.restore();
                 }
-
-                this.tagsInfor.forEach(function(item) {
+                this.tagsInfor.forEach(function(item, index) {
                     this.putTags(item);
                 }.bind(this));
             },
             putTags: function(p) {
+                var N = this.getNumber() / 10;
                 this.ctx.save();
                 this.ctx.translate(this.center.x, this.center.y);
-                this.ctx.font = p.fontSize + 'px Microsoft YaHei';
+                this.ctx.scale(p.scale, p.scale);
+                this.ctx.font = '16px Microsoft YaHei';
                 this.ctx.fillStyle = p.color;
                 this.ctx.beginPath();
                 if (this.DEBUG) {
@@ -340,11 +359,34 @@
                     requestAnimationFrame(loop);
                 }());
             },
+            createMask: function() {
+                var sAngle = 135;
+                var last = 0;
+                var N = this.getNumber() * 10;
+                console.log(N)
+
+                for (var i = 0; i < (N + 1); i++) {
+                    this.ctx.save();
+                    this.ctx.translate(this.center.x, this.center.y);
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(0, 0);
+                    this.ctx.arc(0, 0, this.R3, this.d2a(sAngle + last), this.d2a(sAngle + 2.7 * i), false);
+                    this.ctx.moveTo(0, 0);
+                    this.ctx.lineCap = 'round';
+                    this.ctx.lineJoin = 'round';
+                    last = 2.7 * i;
+                    this.ctx.fillStyle = 'rgba(141, 192, 242, ' + (i / N / 3) + ')';
+                    this.ctx.fill();
+                    this.ctx.closePath();
+                    this.ctx.restore();
+                }
+            },
             render: function() {
                 this.ctx.clearRect(0, 0, this.CW, this.CH);
                 // this.createGradientBg();
                 this.getTagsInfor();
                 this.createCircelOuter();
+                this.createMask();
                 this.createShadow();
                 this.createDegree();
                 this.createCircelIn();
@@ -384,11 +426,15 @@
                 this.tagsInfor = []; // 用于记录tags标签信息
                 this.setTagsInfor();
                 this.loop();
+
+                this.temp = 0;
             }
         }
 
 
-        var dashBoard1 = new DashBoard('#cvs');
+        var dashBoard1 = new DashBoard('#cvs', {
+            value: 100
+        });
         dashBoard1.init();
         // var dashBoard2 = new DashBoard('#cvs1', {
         //     value: 2
