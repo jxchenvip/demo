@@ -68,7 +68,7 @@ BigBoard.prototype = {
             ctx.beginPath();
             ctx.lineWidth = this.lineWidth + 2;
             ctx.strokeStyle = '#fff';
-            ctx.arc(0, 0, this.radius - this.lineWidth, this.d2a(start - 1), this.d2a(start));
+            ctx.arc(0, 0, this.radius - this.lineWidth - 1, this.d2a(start - 1), this.d2a(start));
             ctx.stroke();
             ctx.closePath();
             ctx.restore();
@@ -160,8 +160,8 @@ BigBoard.prototype = {
     render: function (ctx) {
         this.circelOuter(ctx);
         this.circelInner(ctx);
-        this.circelInnerLine(ctx);
         this.circelInnerDegree(ctx);
+        this.circelInnerLine(ctx);
         this.circelTitle(ctx);
         this.circelNummber(ctx);
     },
