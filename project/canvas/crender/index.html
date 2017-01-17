@@ -15,12 +15,26 @@
 
 <body>
     <canvas id="cvs" width="800" height="800"></canvas>
+    <script src="https://jxchenvip.github.io/demo/project/canvas/common/hidpi-canvas.min.js"></script>
     <script src="crender.js"></script>
     <script type="text/javascript">
     </script>
     <script>
+    var getPixelRatio = function(context) {
+        var backingStore = context.backingStorePixelRatio ||
+            context.webkitBackingStorePixelRatio ||
+            context.mozBackingStorePixelRatio ||
+            context.msBackingStorePixelRatio ||
+            context.oBackingStorePixelRatio ||
+            context.backingStorePixelRatio || 1;
+
+        return (window.devicePixelRatio || 1) / backingStore;
+    };
+
     window.onload = function() {
         var cr = cRender('cvs');
+        var ratio = getPixelRatio(cr.context);
+
         cr.addShape({
             shape: 'line',
             style: {
@@ -116,7 +130,7 @@
             }
         })
 
-        var b = cr.addShape({
+        cr.addShape({
             shape: 'star',
             style: {
                 x: 650,
@@ -224,47 +238,29 @@
             }
         });
 
-        // var img = new Image();
-        // img.onload = function() {
-        //     var that = this;
-        //     var c = cr.addShape({
-        //         shape: 'bbb',
-        //         style: {
-        //             x: 50,
-        //             y: 250,
-        //             draw: function() {
-        //                 this.context.drawImage(that, -25, -25, 50, 50);
-        //             }
-        //         }
-        //     });
-        // }
-        // img.src = 'http://www.33lc.com/article/UploadPic/2012-8/201282413335761587.jpg';
+        var img = new Image();
+        img.onload = function() {
+            var that = this;
+            var c = cr.addShape({
+                shape: 'bbb',
+                style: {
+                    x: 50,
+                    y: 250,
+                    draw: function() {
+                        var w = 100 * ratio;
+                        var h = 100 * ratio;
+                        this.context.drawImage(that, -w / 2, -h / 2, w, h);
+                    }
+                }
+            });
+        }
+        img.src = 'http://www.33lc.com/article/UploadPic/2012-8/201282413335761587.jpg';
 
-        // var img1 = new Image();
-        // img1.onload = function() {
-        //     var that = this;
-        //     var c = cr.addShape({
-        //         shape: 'bbb',
-        //         style: {
-        //             x: 400,
-        //             y: 400,
-        //             draw: function(layer) {
-        //                 var w = 100,
-        //                     h = 100;
-        //                 this.context.drawImage(that, -w / 2, -h / 2, w, h);
-        //             }
-        //         },
-        //         zIndex: -1
-        //     });
-        //     c.setOpacity(0.5);
-        // }
-        // img1.src = 'http://www.dabaoku.com/sucaidatu/dongwu/chongwujingling/953838.JPG';
-        // document.addEventListener('click', function(e) {
-        //     cr.mouseX = e.clientX;
-        //     cr.mouseY = e.clientY;
-        // }, false)
-
-        // var t = cr.getChildren('bbb');
+        document.addEventListener('click', function(e) {
+            cr.mouseX = e.clientX;
+            cr.mouseY = e.clientY;
+            console.log(cr.mouseX, cr.mouseY)
+        }, false)
     }
     </script>
 </body>
