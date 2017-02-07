@@ -66,12 +66,13 @@
         <br>
         <br>
         <br>
-        <br>dfs
+        <br>aaa
     </div>
     <script type="text/javascript">
     var p = document.querySelectorAll('p');
     [].forEach.call(p, function(item) {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function(e) {
+            alert('b')
             e.preventDefault();
             e.stopPropagation();
         }, false)
