@@ -84,6 +84,11 @@
     <br>
     <br>
     <script type="text/javascript">
+    var p = document.querySelector('p');
+    [].forEach.call(p, function(e) {
+    	e.preventDefault();
+    	e.stopPropagation();
+    })
     document.addEventListener('click', function() {
         alert('a')
     }, false)
