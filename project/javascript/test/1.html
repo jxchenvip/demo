@@ -3,10 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <title>Document</title>
-    <style type="text/css">
-    body, html{ height: 100%; min-height: 100%; }
-    .box{ position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; }</style>
 </head>
 
 <body>
@@ -74,8 +72,8 @@
     // [].forEach.call(eles, function(item) {
     //     item.addEventListener('click', function() {})
     // })
-    var box = document.querySelector('.box');
-    box.addEventListener('click', function() {}, false)
+    // var box = document.querySelector('.box');
+    // box.addEventListener('click', function() {}, false)
     document.addEventListener('click', function() {
         alert('a')
     }, false)
