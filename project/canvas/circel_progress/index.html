@@ -19,9 +19,36 @@
     <div id="box1"></div>
     <canvas id="cvs2" width="200" height="200"></canvas>
     <div id="box2"></div>
-    <script src="../common/requestNextAnimationFrame.js"></script>
+    <!--<script src="../common/requestNextAnimationFrame.js"></script>-->
     <script src="../common/hidpi-canvas.min.js"></script>
     <script>
+        (function() {
+            var vendors = ['webkit', 'moz'];
+            for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+                window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+                window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || // Webkit中此取消方法的名字变了
+                    window[vendors[x] + 'CancelRequestAnimationFrame'];
+            }
+
+            if (!window.requestAnimationFrame) {
+                window.requestAnimationFrame = function(callback, element) {
+                    var start,
+                        finish;
+                    var id = window.setTimeout(function() {
+                        start = Date.now();
+                        callback(start);
+                        finish = Date.now();
+                        self.timeout = 1000 / 60 - (finish - start);
+                    }, self.timeout);
+                    return id;
+                };
+            }
+            if (!window.cancelAnimationFrame) {
+                window.cancelAnimationFrame = function(id) {
+                    clearTimeout(id);
+                };
+            }
+        }());
         var getPixelRatio = function(context) {
             var backingStore = context.backingStorePixelRatio ||
                 context.webkitBackingStorePixelRatio ||
@@ -208,7 +235,7 @@
                 (function next() {
                     if (that.animateTime < frame) {
                         // clearTimeout(timer);
-                        // cancelNextAnimationFrame(next);
+                        cancelAnimationFrame(next);
                         that.oncomplete.call(that);
                     } else {
                         that.ctx.clearRect(0, 0, that.canvas.width, that.canvas.height);
@@ -226,7 +253,7 @@
                         }
                         that.drawCircel(that.lineWidth * 1.2, that.topCircelColor);
                         // timer = setTimeout(next, speed);
-                        requestNextAnimationFrame(next);
+                        requestAnimationFrame(next);
                     }
                 })();
             }
