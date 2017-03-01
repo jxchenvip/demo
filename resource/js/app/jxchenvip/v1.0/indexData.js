@@ -10,7 +10,8 @@ define(function(require, exports, module) {
         { id: 7, link: "./project/react/demo1/index.html", innerText: "react-demo" },
         { id: 8, link: "./project/vue/html5api/index.html", innerText: "vue-demo" },
         { id: 9, link: "./project/canvas/radar/index.html", innerText: "radar" },
-        { id: 10, link: "javascript:;", innerText: "敬请期待" }
+        { id: 10, link: "./project/javascript/quickMenu/index.html", innerText: "quickMenu" },
+        { id: 11, link: "javascript:;", innerText: "敬请期待" }
     ];
     module.exports.data = indexDate;
 })
