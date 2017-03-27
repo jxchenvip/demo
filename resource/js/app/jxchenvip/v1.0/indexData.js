@@ -12,7 +12,8 @@ define(function(require, exports, module) {
         { id: 9, link: "./project/canvas/radar/index.html", innerText: "radar" },
         { id: 10, link: "./project/javascript/quickMenu/index.html", innerText: "quickMenu" },
         { id: 11, link: "./project/javascript/createzushi/index.html", innerText: "注释" },
-        { id: 12, link: "javascript:;", innerText: "敬请期待" }
+        { id: 12, link: "./project/javascript/radar2/index.html", innerText: "radar2" },
+        { id: 13, link: "javascript:;", innerText: "敬请期待" }
     ];
     module.exports.data = indexDate;
 })
