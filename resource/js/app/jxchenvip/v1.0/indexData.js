@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
     var indexDate = [
-        { id: 13, link: "./project/pano2vr/1-1/index.html", innerText: "3d室内全景" },
+        { id: 13, link: "./project/pano2vr/1-1/index.html", innerText: "3d室内全景", top: "true" },
         { id: 12, link: "./project/canvas/radar2/index.html", innerText: "radar2" },
         { id: 11, link: "./project/javascript/createzushi/index.html", innerText: "注释" },
         { id: 10, link: "./project/javascript/quickMenu/index.html", innerText: "quickMenu" },
@@ -13,7 +13,7 @@ define(function(require, exports, module) {
         { id: 3, link: "./project/javascript/countDown/index.html", innerText: "倒计时" },
         { id: 2, link: "./project/javascript/data_select/index.html", innerText: "日期联动下拉" },
         { id: 1, link: "./project/canvas/circel_progress/index.html", innerText: "圆形进度条" },
-        { id: 0, link: "./project/canvas/tablet/index.html", innerText: "写字板", top: "true" },
+        { id: 0, link: "./project/canvas/tablet/index.html", innerText: "写字板" },
         { id: 99999, link: "javascript:;", innerText: "敬请期待" }
     ];
     module.exports.data = indexDate;
