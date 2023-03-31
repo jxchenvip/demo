@@ -70,8 +70,8 @@
           <canvas ref="canvas"></canvas>
 
           <div class="buttons">
-            <van-button type="primary" @click="onActiveChange">下一个</van-button>
             <van-button type="primary" @click="answer=!answer">看结果</van-button>
+            <van-button type="primary" @click="onActiveChange">下一个</van-button>
           </div>
           <div class="" v-if="answer">
             {{ count }}
@@ -186,14 +186,14 @@
             },
             draw() {
               const letters = this.getLetters();
-              const size = this.ratio(20);
+              const size = this.ratio(30);
               this.count = {};
               this.ctx = this.canvas.getContext('2d');
               this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-              generateRandomCoordinates(this.LETTER_COUNT, size, this.canvas.width * .8, size).forEach((coord, index) => {
+              generateRandomCoordinates(this.LETTER_COUNT, size, this.canvas.width - size, size).forEach((coord, index) => {
                 const letter = letters[index];
                 const [x, y] = coord;
-                this.ctx.font = `${this.ratio(20)}px serif`;
+                this.ctx.font = `${this.ratio(30)}px serif`;
                 this.ctx.textAlign = 'center';
                 this.ctx.textBaseline = 'middle';
                 this.ctx.fillText(letter, x, y);
@@ -205,7 +205,6 @@
               });
             },
             onActiveChange() {
-              console.log(this)
               // const base = getRandomNonRepeatingNumbers(
               //   this.numbers,
               //   this.active - 1
