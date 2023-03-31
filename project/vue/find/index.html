@@ -40,6 +40,9 @@
         .repeatNumbers .showNumber .selected {
           color: red;
         }
+        body {
+          background-color: rgb(199, 237, 204);
+        }
       </style>
     </head>
     <body>
@@ -205,6 +208,7 @@
               });
             },
             onActiveChange() {
+              this.answer = false;
               // const base = getRandomNonRepeatingNumbers(
               //   this.numbers,
               //   this.active - 1
